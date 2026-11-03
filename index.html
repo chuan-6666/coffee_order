@@ -270,6 +270,10 @@
     .cart-popover[hidden] { display: none; }
     .cart-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
     .cart-heading h3 { margin: 0; font-family: var(--serif); font-size: 17px; font-weight: 600; }
+    .cart-heading-actions { display: flex; align-items: center; gap: 8px; }
+    .cart-clear-button { padding: 6px 8px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; }
+    .cart-clear-button:hover:not(:disabled), .cart-remove-button:hover { color: #a74f39; }
+    .cart-clear-button:disabled { cursor: not-allowed; opacity: .45; }
     .cart-close { width: 30px; height: 30px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 20px; }
     .cart-items { max-height: 280px; overflow: auto; }
     .cart-empty { padding: 18px 0; color: var(--muted); font-size: 12px; text-align: center; }
@@ -279,6 +283,8 @@
     .quantity { display: flex; align-items: center; gap: 9px; }
     .quantity button { width: 24px; height: 24px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; }
     .quantity span { min-width: 12px; text-align: center; font-size: 11px; }
+    .cart-row-actions { display: flex; align-items: center; gap: 7px; }
+    .cart-remove-button { width: 25px; height: 25px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; font-size: 17px; line-height: 1; }
     .cart-total { display: flex; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--line); font-size: 12px; font-weight: 700; }
     .cart-checkout { width: 100%; min-height: 42px; border: 0; border-radius: 3px; background: var(--green); color: white; cursor: pointer; font-size: 12px; }
     .cart-checkout:disabled { background: #d3d4ca; cursor: not-allowed; }
@@ -420,7 +426,13 @@
   </footer>
 
   <aside class="cart-popover" id="cart-panel" aria-label="購物車" hidden>
-    <div class="cart-heading"><h3>你的小小清單</h3><button class="cart-close" id="cart-close" type="button" aria-label="關閉購物車">×</button></div>
+    <div class="cart-heading">
+      <h3>你的小小清單</h3>
+      <div class="cart-heading-actions">
+        <button class="cart-clear-button" id="cart-clear" type="button" disabled>清空購物車</button>
+        <button class="cart-close" id="cart-close" type="button" aria-label="關閉購物車">×</button>
+      </div>
+    </div>
     <div class="cart-items" id="cart-items"></div>
     <div class="cart-total"><span>合計</span><span id="cart-total">NT$ 0</span></div>
     <button class="cart-checkout" id="checkout-button" type="button" disabled>加入購物車後即可結帳</button>
@@ -451,6 +463,7 @@
     const filters = document.getElementById("filters");
     const searchInput = document.getElementById("search-input");
     const cart = new Map();
+    const cartStorageKey = "manman-coffee-cart-v1";
     let products = [];
     let selectedCategory = "全部品項";
     let toastTimer;
@@ -463,6 +476,47 @@
 
     function formatPrice(price) {
       return new Intl.NumberFormat("zh-TW").format(price);
+    }
+
+    function restoreCart() {
+      try {
+        const savedCart = localStorage.getItem(cartStorageKey);
+        if (savedCart === null) return;
+
+        const savedItems = JSON.parse(savedCart);
+        if (!Array.isArray(savedItems)) throw new Error("購物車資料格式不正確");
+
+        let invalidItemCount = 0;
+        savedItems.forEach(item => {
+          if (!item || !Number.isSafeInteger(item.productId) || !Number.isSafeInteger(item.quantity) || item.quantity < 1) {
+            invalidItemCount += 1;
+            return;
+          }
+
+          const product = products.find(candidate => candidate.id === item.productId);
+          if (!product) {
+            invalidItemCount += 1;
+            return;
+          }
+          cart.set(product.id, { product, quantity: item.quantity });
+        });
+
+        if (invalidItemCount > 0) showToast("部分已儲存的商品資料無效，已略過無效項目");
+      } catch (error) {
+        console.error("讀取已儲存的購物車失敗：", error);
+        showToast("無法讀取已儲存的購物車，請檢查瀏覽器儲存空間");
+      }
+    }
+
+    function saveCart() {
+      try {
+        localStorage.setItem(cartStorageKey, JSON.stringify(
+          [...cart.values()].map(({ product, quantity }) => ({ productId: product.id, quantity }))
+        ));
+      } catch (error) {
+        console.error("儲存購物車失敗：", error);
+        showToast("購物車未能保存，請檢查瀏覽器儲存空間");
+      }
     }
 
     function renderFilters() {
@@ -519,24 +573,30 @@
       const total = [...cart.values()].reduce((sum, item) => sum + item.product.priceNtd * item.quantity, 0);
       document.getElementById("cart-count").textContent = count;
       document.getElementById("cart-total").textContent = `NT$ ${formatPrice(total)}`;
+      document.getElementById("cart-clear").disabled = count === 0;
       document.getElementById("checkout-button").disabled = count === 0;
       document.getElementById("checkout-button").textContent = count ? "確認品項（示範）" : "加入購物車後即可結帳";
 
       if (!count) {
         cartItems.innerHTML = '<p class="cart-empty">清單還空空的，挑一樣喜歡的吧。</p>';
+        saveCart();
         return;
       }
 
       cartItems.innerHTML = [...cart.values()].map(({ product, quantity }) => `
         <div class="cart-row">
           <div><div class="cart-item-name">${escapeHtml(product.nameZh)}</div><div class="cart-item-price">NT$ ${formatPrice(product.priceNtd * quantity)}</div></div>
-          <div class="quantity">
-            <button type="button" data-quantity="${product.id}" data-change="-1" aria-label="減少${escapeHtml(product.nameZh)}數量">−</button>
-            <span>${quantity}</span>
-            <button type="button" data-quantity="${product.id}" data-change="1" aria-label="增加${escapeHtml(product.nameZh)}數量">+</button>
+          <div class="cart-row-actions">
+            <div class="quantity">
+              <button type="button" data-quantity="${product.id}" data-change="-1" aria-label="減少${escapeHtml(product.nameZh)}數量">−</button>
+              <span>${quantity}</span>
+              <button type="button" data-quantity="${product.id}" data-change="1" aria-label="增加${escapeHtml(product.nameZh)}數量">+</button>
+            </div>
+            <button class="cart-remove-button" type="button" data-remove="${product.id}" aria-label="移除${escapeHtml(product.nameZh)}">×</button>
           </div>
         </div>
       `).join("");
+      saveCart();
     }
 
     function showToast(message) {
@@ -569,6 +629,16 @@
     });
 
     document.getElementById("cart-items").addEventListener("click", event => {
+      const removeButton = event.target.closest("[data-remove]");
+      if (removeButton) {
+        const item = cart.get(Number(removeButton.dataset.remove));
+        if (!item) return;
+        cart.delete(item.product.id);
+        renderCart();
+        showToast(`已移除「${item.product.nameZh}」`);
+        return;
+      }
+
       const button = event.target.closest("[data-quantity]");
       if (!button) return;
       const id = Number(button.dataset.quantity);
@@ -578,6 +648,13 @@
       if (quantity <= 0) cart.delete(id);
       else cart.set(id, { ...item, quantity });
       renderCart();
+    });
+
+    document.getElementById("cart-clear").addEventListener("click", () => {
+      if (cart.size === 0) return;
+      cart.clear();
+      renderCart();
+      showToast("購物車已清空");
     });
 
     const cartToggle = document.getElementById("cart-toggle");
@@ -605,8 +682,10 @@
           throw new Error("商品資料格式不正確，請檢查 data/products.json");
         }
         products = data;
+        restoreCart();
         renderFilters();
         renderProducts();
+        renderCart();
       })
       .catch(error => {
         productGrid.innerHTML = `<p class="load-error">${escapeHtml(error.message)}。請透過本機網頁伺服器開啟此頁面。</p>`;
