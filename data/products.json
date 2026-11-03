@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "category": "手沖咖啡",
+    "nameZh": "衣索比亞 耶加雪菲",
+    "nameEn": "Yirgacheffe, Ethiopia",
+    "description": "帶有明亮的柑橘與茉莉花香，口感清新滑順。",
+    "priceNtd": 180
+  },
+  {
+    "id": 2,
+    "category": "手沖咖啡",
+    "nameZh": "瓜地馬拉 薇薇特南果",
+    "nameEn": "Huehuetenango, Guatemala",
+    "description": "濃郁的核果香氣，帶有微微可可尾韻，層次豐富。",
+    "priceNtd": 170
+  },
+  {
+    "id": 3,
+    "category": "特調飲品",
+    "nameZh": "靜岡抹茶拿鐵",
+    "nameEn": "Shizuoka Matcha Latte",
+    "description": "使用日本進口靜岡抹茶粉，融合濃醇小農鮮奶。",
+    "priceNtd": 160
+  },
+  {
+    "id": 4,
+    "category": "特調飲品",
+    "nameZh": "蜂蜜柚子氣泡飲",
+    "nameEn": "Honey Yuzu Sparkling",
+    "description": "自製黃金柚子醬搭配微氣泡水，夏日午後的清爽首選。",
+    "priceNtd": 150
+  },
+  {
+    "id": 5,
+    "category": "特調飲品",
+    "nameZh": "橙香冰黑咖啡",
+    "nameEn": "Orange Cold Brew",
+    "description": "冷萃咖啡結合新鮮柳橙汁，酸甜果香與咖啡完美交織。",
+    "priceNtd": 170
+  },
+  {
+    "id": 6,
+    "category": "手作甜點",
+    "nameZh": "法式經典巴斯克乳酪蛋糕",
+    "nameEn": "Classic Basque Cheesecake",
+    "description": "外皮焦香、內裡濃郁綿密，入口即化的幸福滋味。",
+    "priceNtd": 140
+  },
+  {
+    "id": 7,
+    "category": "手作甜點",
+    "nameZh": "小山園若竹抹茶磅蛋糕",
+    "nameEn": "Matcha Pound Cake",
+    "description": "濃郁茶香不苦澀，濕潤紮實的口感配茶絕佳。",
+    "priceNtd": 130
+  },
+  {
+    "id": 8,
+    "category": "手作甜點",
+    "nameZh": "季節鮮果戚風蛋糕",
+    "nameEn": "Seasonal Fruit Chiffon Cake",
+    "description": "蓬鬆柔軟的香草戚風，搭配當季新鮮草莓與香緹鮮奶油。",
+    "priceNtd": 160
+  },
+  {
+    "id": 9,
+    "category": "手作甜點",
+    "nameZh": "手工伯爵司康佐德式果醬",
+    "nameEn": "Earl Grey Scone with Jam",
+    "description": "帶著淡淡佛手柑香氣，外酥內軟，抹上鮮奶油與果醬。",
+    "priceNtd": 110
+  },
+  {
+    "id": 10,
+    "category": "輕食早午餐",
+    "nameZh": "燻鮭魚酪梨酸種麵包",
+    "nameEn": "Smoked Salmon Sourdough",
+    "description": "自製酸種麵包鋪上厚切酪梨與挪威煙燻鮭魚，營養滿分。",
+    "priceNtd": 260
+  },
+  {
+    "id": 11,
+    "category": "輕食早午餐",
+    "nameZh": "爐烤時蔬黑松露蕈菇帕尼尼",
+    "nameEn": "Truffle Mushroom Panini",
+    "description": "濃郁松露醬搭配綜合蕈菇與融化起司，香氣四溢。",
+    "priceNtd": 220
+  },
+  {
+    "id": 12,
+    "category": "輕食早午餐",
+    "nameZh": "炙燒明太子玉子燒三明治",
+    "nameEn": "Mentaiko Tamagoyaki Sandwich",
+    "description": "厚實多汁的日式玉子燒淋上炙燒明太子醬，口感豐富。",
+    "priceNtd": 200
+  }
+]
