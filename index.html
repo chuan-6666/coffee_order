@@ -45,18 +45,8 @@
       justify-content: space-between;
       border-bottom: 1px solid rgba(41, 43, 35, .08);
     }
-    .brand { display: inline-flex; align-items: center; gap: 11px; }
-    .brand-mark {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--green);
-      border-radius: 50%;
-    }
-    .brand-name { font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: .12em; }
-    .brand-caption { margin-top: 2px; color: var(--muted); font-size: 9px; letter-spacing: .18em; }
+    .brand { display: inline-flex; align-items: center; }
+    .brand img { display: block; height: 58px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 36px; color: #74756c; font-size: 13px; }
     .nav-links a:hover { color: var(--green); }
     .cart-button {
@@ -90,10 +80,11 @@
     .hero {
       min-height: 444px;
       display: grid;
-      grid-template-columns: 1fr .9fr;
+      grid-template-columns: 1fr;
       align-items: center;
       gap: 38px;
       padding: 50px 0 62px;
+      background: linear-gradient(90deg, rgba(248,246,241,.9) 0%, rgba(248,246,241,.78) 44%, rgba(248,246,241,.24) 100%) center / cover no-repeat, url("coffee_order/1.jpg") center / cover no-repeat;
     }
     .eyebrow {
       display: inline-flex;
@@ -132,40 +123,6 @@
     .primary-link:hover { transform: translateY(-2px); background: #243a2d; }
     .open-note { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
     .open-dot { width: 7px; height: 7px; border-radius: 50%; background: #83a27a; box-shadow: 0 0 0 4px #83a27a20; }
-    .hero-art {
-      position: relative;
-      min-height: 330px;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      border-radius: 48% 48% 4px 4px;
-      background: #e9e8dd;
-    }
-    .hero-art::before, .hero-art::after { position: absolute; border: 1px solid rgba(48,76,59,.12); border-radius: 50%; content: ""; }
-    .hero-art::before { width: 285px; height: 285px; }
-    .hero-art::after { width: 350px; height: 350px; }
-    .hero-cup { z-index: 1; width: min(66%, 270px); filter: drop-shadow(0 22px 18px rgba(48, 42, 30, .14)); }
-    .art-label {
-      position: absolute;
-      z-index: 2;
-      right: 12%;
-      bottom: 13%;
-      padding: 10px 14px;
-      border: 1px solid rgba(41,43,35,.1);
-      background: rgba(248,246,241,.86);
-      color: var(--green);
-      font-family: var(--serif);
-      font-size: 12px;
-      letter-spacing: .12em;
-    }
-    .art-spark {
-      position: absolute;
-      top: 20%;
-      left: 18%;
-      color: var(--orange);
-      font-size: 20px;
-    }
-
     .menu-section { padding: 45px 0 90px; border-top: 1px solid rgba(41,43,35,.08); }
     .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
     .section-kicker { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: .2em; }
@@ -209,25 +166,17 @@
     }
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(45,49,39,.08); }
     .product-art {
-      position: relative;
       height: 174px;
-      display: grid;
-      place-items: center;
       overflow: hidden;
-      background: var(--art-bg, #e8e8dc);
     }
-    .product-art::before, .product-art::after {
-      position: absolute;
-      width: 125px;
-      height: 125px;
-      border: 1px solid rgba(48,76,59,.1);
-      border-radius: 50%;
-      content: "";
+    .product-art img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
-    .product-art::after { width: 165px; height: 165px; }
-    .product-art svg { position: relative; z-index: 1; width: 93px; height: 93px; filter: drop-shadow(0 7px 8px rgba(30,34,25,.1)); }
-    .product-art .art-number { position: absolute; top: 12px; left: 13px; color: rgba(41,43,35,.38); font-family: var(--sans); font-size: 10px; letter-spacing: .12em; }
-    .product-art .art-tag { position: absolute; right: 11px; bottom: 10px; z-index: 1; padding: 5px 8px; border-radius: 2px; background: rgba(255,254,250,.8); color: var(--green); font-size: 9px; }
+    .product-art img.product-photo--lower-focus { object-position: center 60%; }
     .product-info { padding: 15px 15px 14px; }
     .product-category { color: var(--orange); font-size: 9px; letter-spacing: .1em; }
     .product-name { min-height: 26px; margin: 6px 0 2px; font-family: var(--serif); font-size: 15px; font-weight: 600; letter-spacing: .025em; }
@@ -307,8 +256,7 @@
 
     @media (max-width: 900px) {
       .shell { width: min(100% - 40px, 720px); }
-      .hero { min-height: 380px; grid-template-columns: 1fr .8fr; gap: 20px; }
-      .hero-art { min-height: 280px; }
+      .hero { min-height: 380px; gap: 20px; }
       .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
       .nav-links { gap: 20px; }
       .cart-popover { right: 20px; }
@@ -316,15 +264,12 @@
     @media (max-width: 640px) {
       .shell { width: calc(100% - 36px); }
       .topbar { height: 68px; }
-      .brand-name { font-size: 16px; }
-      .brand-mark { width: 34px; height: 34px; }
+      .brand img { height: 48px; }
       .nav-links { display: none; }
       .cart-button { height: 38px; padding: 0 11px; }
       .hero { grid-template-columns: 1fr; gap: 27px; padding: 42px 0 46px; }
       h1 { margin-top: 15px; font-size: clamp(42px, 12vw, 58px); }
       .hero-copy { font-size: 13px; }
-      .hero-art { min-height: 245px; border-radius: 47% 47% 4px 4px; }
-      .hero-cup { width: 190px; }
       .menu-section { padding: 35px 0 58px; }
       .section-heading { align-items: start; flex-direction: column; gap: 8px; }
       h2 { font-size: 26px; }
@@ -334,7 +279,6 @@
       .search { width: 100%; }
       .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .product-art { height: 130px; }
-      .product-art svg { width: 77px; height: 77px; }
       .product-info { padding: 12px 11px 11px; }
       .product-name { min-height: 40px; font-size: 13px; line-height: 1.55; }
       .product-description { min-height: 54px; margin: 9px 0 11px; font-size: 9px; }
@@ -351,13 +295,7 @@
 <body>
   <header class="shell topbar">
     <a class="brand" href="#" aria-label="漫慢咖啡首頁">
-      <span class="brand-mark" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M7 8h9v6a4.5 4.5 0 0 1-9 0V8Z" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M16 10h1.5a2 2 0 1 1 0 4H16M5 19h14M11.5 5.5c-1-1 1-1.5 0-2.5M14.5 6c-1-1 1-1.5 0-2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span><span class="brand-name">漫慢咖啡</span><span class="brand-caption">SLOW DOWN, SIP SLOW</span></span>
+      <img src="coffee_order/logo1.jpg" alt="">
     </a>
     <nav class="nav-links" aria-label="主要導覽">
       <a href="#story">關於漫慢</a>
@@ -379,25 +317,6 @@
           <a class="primary-link" href="#menu">探索今日菜單 <span aria-hidden="true">→</span></a>
           <span class="open-note"><span class="open-dot"></span>每日新鮮手作</span>
         </div>
-      </div>
-      <div class="hero-art" aria-label="咖啡杯插畫">
-        <span class="art-spark" aria-hidden="true">✳</span>
-        <svg class="hero-cup" viewBox="0 0 280 300" fill="none" role="img" aria-label="一杯剛沖好的咖啡">
-          <ellipse cx="139" cy="265" rx="88" ry="15" fill="#435540" opacity=".12"/>
-          <path d="M59 102h139v102c0 25-20 45-45 45h-49c-25 0-45-20-45-45V102Z" fill="#F8F5EA"/>
-          <path d="M198 124h16c19 0 31 13 31 32s-13 34-32 34h-17" stroke="#F8F5EA" stroke-width="16"/>
-          <path d="M198 139h14c9 0 15 6 15 17s-6 18-15 18h-14" stroke="#D3CFBF" stroke-width="3"/>
-          <ellipse cx="128" cy="103" rx="69.5" ry="17" fill="#C77A4D"/>
-          <ellipse cx="128" cy="103" rx="58" ry="11" fill="#654331"/>
-          <path d="M107 102c8-13 29-13 38 0-9 13-30 13-38 0Z" fill="#E8C99D"/>
-          <path d="M128 92c-6 6-7 12 0 20 7-8 7-14 0-20Z" fill="#F1DFC0"/>
-          <path d="M86 148h82M94 163h66M102 178h50" stroke="#E4DFD0" stroke-width="2" stroke-linecap="round"/>
-          <path d="M74 245h110" stroke="#C9C4B6" stroke-width="4" stroke-linecap="round"/>
-          <path d="M98 82c-7-10 5-12 0-21M128 79c-7-10 5-12 0-21M157 82c-7-10 5-12 0-21" stroke="#75816B" stroke-width="3" stroke-linecap="round"/>
-          <path d="M191 239c12 7 19 14 24 26" stroke="#B96A4C" stroke-width="3" stroke-linecap="round"/>
-          <path d="M217 259c-8-4-15-3-20 2 8 4 15 3 20-2Z" fill="#74826A"/>
-        </svg>
-        <span class="art-label">一杯咖啡，一段好時光</span>
       </div>
     </section>
 
@@ -440,28 +359,10 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const categoryArtwork = {
-      "手沖咖啡": {
-        bg: "#e9e9de",
-        svg: '<svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M29 43h39l-5 34H34l-5-34Z" fill="#F7F1E3" stroke="#54705B" stroke-width="2"/><ellipse cx="48.5" cy="43" rx="19.5" ry="5.5" fill="#704C38"/><path d="M68 49h5a8 8 0 0 1 0 16h-7" stroke="#54705B" stroke-width="3"/><path d="M39 36c-4-6 4-7 0-13m11 13c-4-6 4-7 0-13m11 13c-4-6 4-7 0-13" stroke="#9A825D" stroke-width="2" stroke-linecap="round"/><path d="M24 80h51" stroke="#C5C6B8" stroke-width="3" stroke-linecap="round"/></svg>'
-      },
-      "特調飲品": {
-        bg: "#e5ebe2",
-        svg: '<svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M33 35h36l-4 44H37l-4-44Z" fill="#F8F5E9" stroke="#61745D" stroke-width="2"/><path d="M37 51h28l-2 23H39l-2-23Z" fill="#D9C594"/><path d="M37 53c7-5 18 5 28 0" stroke="#FBF8EE" stroke-width="3"/><path d="m57 34 8-14" stroke="#71806A" stroke-width="2.5" stroke-linecap="round"/><circle cx="43" cy="59" r="3" fill="#F6F1DF"/><circle cx="56" cy="67" r="2" fill="#F6F1DF"/><path d="M28 82h45" stroke="#C5C6B8" stroke-width="3" stroke-linecap="round"/></svg>'
-      },
-      "手作甜點": {
-        bg: "#f0e5d9",
-        svg: '<svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="m22 68 13-35 22 21 20-14 7 28H22Z" fill="#D6A36D" stroke="#936B48" stroke-width="2" stroke-linejoin="round"/><path d="m35 33 4 21 18 0-22-21Z" fill="#F4E3C5"/><path d="M22 68h62v9H22v-9Z" fill="#F6EFE2" stroke="#936B48" stroke-width="2"/><path d="M33 61h49" stroke="#956343" stroke-width="2" stroke-linecap="round"/><circle cx="54" cy="43" r="4" fill="#85916E"/><path d="M27 81h57" stroke="#C5B9A8" stroke-width="3" stroke-linecap="round"/></svg>'
-      },
-      "輕食早午餐": {
-        bg: "#e8e9df",
-        svg: '<svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M23 52c0-14 12-25 27-25s27 11 27 25H23Z" fill="#E4C99A" stroke="#867653" stroke-width="2"/><path d="M26 50h49v15c0 8-7 14-15 14H41c-8 0-15-6-15-14V50Z" fill="#F7F2E6" stroke="#867653" stroke-width="2"/><path d="M30 54h41" stroke="#71825E" stroke-width="8" stroke-linecap="round"/><path d="M33 54c5-7 11 7 17 0s11 7 17 0" stroke="#C76D55" stroke-width="4" stroke-linecap="round"/><path d="M20 84h60" stroke="#C5C6B8" stroke-width="3" stroke-linecap="round"/></svg>'
-      }
-    };
-
     const productGrid = document.getElementById("product-grid");
     const filters = document.getElementById("filters");
     const searchInput = document.getElementById("search-input");
+    const lowerFocusProductNames = new Set(["法式經典巴斯克乳酪蛋糕", "小山園若竹抹茶磅蛋糕"]);
     const cart = new Map();
     const cartStorageKey = "manman-coffee-cart-v1";
     let products = [];
@@ -542,13 +443,12 @@
       }
 
       productGrid.innerHTML = visibleProducts.map(product => {
-        const artwork = categoryArtwork[product.category];
+        const imagePath = `coffee_order/${encodeURIComponent(product.nameZh)}.jpg`;
+        const focusClass = lowerFocusProductNames.has(product.nameZh) ? " product-photo--lower-focus" : "";
         return `
           <article class="product-card">
-            <div class="product-art" style="--art-bg:${artwork.bg}">
-              <span class="art-number">NO. ${String(product.id).padStart(2, "0")}</span>
-              ${artwork.svg}
-              <span class="art-tag">${escapeHtml(product.category)}</span>
+            <div class="product-art">
+              <img class="product-photo${focusClass}" src="${escapeHtml(imagePath)}" alt="${escapeHtml(product.nameZh)}" loading="lazy">
             </div>
             <div class="product-info">
               <div class="product-category">${escapeHtml(product.category)}</div>
